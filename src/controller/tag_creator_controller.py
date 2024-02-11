@@ -1,5 +1,6 @@
 from typing import Dict
 from src.drivers.barcode_handler import BarcodeHandler
+from src.drivers.minio_handler import MinioHandler
 
 class TagCreatorController:
     '''
@@ -11,8 +12,16 @@ class TagCreatorController:
         return formatted_response
     
     def __create_tag(self, product_code: str) -> str:
+        minio_handler = MinioHandler()
         barcode_handler = BarcodeHandler()
+        
         path_from_tag = barcode_handler.create_barcode(product_code)
+        minio_handler.upload(
+            bucket_name='barcodes',
+            object_name=product_code,
+            file_path=f'{path_from_tag}.png'
+        )
+        
         return path_from_tag
     
     def __format_response(self, path_from_tag: str) -> Dict:
