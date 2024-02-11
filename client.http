@@ -1,0 +1,13 @@
+@base_uri=http://localhost:3000
+
+###
+
+# create-tag
+
+POST {{base_uri}}/create_tag
+Content-Type: application/json
+
+{
+    "product_code": "123"
+}
+
